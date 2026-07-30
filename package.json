@@ -8,7 +8,8 @@
     "web": "expo start --web",
     "prepare-data": "node scripts/buildDemoData.mjs",
     "typecheck": "tsc --noEmit",
-    "verify": "node --import tsx scripts/verifyDecision.ts"
+    "verify": "node --import tsx scripts/verifyDecision.ts",
+    "check": "npm run prepare-data && npm run typecheck && npm run verify"
   },
   "dependencies": {
     "csv-parse": "^6.1.0",
