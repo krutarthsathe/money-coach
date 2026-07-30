@@ -2,6 +2,7 @@
   "expo": {
     "name": "Money Coach",
     "slug": "money-coach",
+    "description": "A mobile decision tool that compares extra paid work with the real cost of borrowing for gig and daily-wage workers.",
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "dark",
