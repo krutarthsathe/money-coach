@@ -1,6 +1,6 @@
-# PayRace
+# Money Coach
 
-PayRace is a simple daily money planner for gig and daily-wage workers. It answers:
+Money Coach is a simple daily money planner for gig and daily-wage workers. It answers:
 
 - How much did I earn today?
 - How much is in my account?
@@ -82,7 +82,7 @@ The sample data supplies initial values and evidence; it does not control the us
 
 ## Ethical limitations
 
-PayRace does not provide financial advice. Working more is presented as an option, not an obligation. A loan or cash advance is never treated as income, and its fee, repayment, and impact on future pay remain visible.
+Money Coach does not provide financial advice. Working more is presented as an option, not an obligation. A loan or cash advance is never treated as income, and its fee, repayment, and impact on future pay remain visible.
 
 ## 60-second demo
 

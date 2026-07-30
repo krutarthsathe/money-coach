@@ -42,7 +42,7 @@ export function EvidenceModal({ visible, onClose, data }: Props) {
           <View style={styles.header}>
             <View style={styles.headerText}>
               <Text style={styles.eyebrow}>BASED ON REAL SAMPLE DATA</Text>
-              <Text style={styles.title}>Why PayRace recommended this</Text>
+              <Text style={styles.title}>Why Money Coach recommended this</Text>
             </View>
             <Pressable
               style={styles.close}

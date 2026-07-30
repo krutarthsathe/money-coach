@@ -271,7 +271,7 @@ export default function App() {
               <View style={styles.logo}>
                 <Text style={styles.logoText}>↗</Text>
               </View>
-              <Text style={styles.brand}>PayRace</Text>
+              <Text style={styles.brand}>Money Coach</Text>
             </View>
             <View style={styles.demoPill}>
               <Text style={styles.demoPillText}>DEMO VALUES</Text>
@@ -662,7 +662,7 @@ export default function App() {
           </Pressable>
 
           <Text style={styles.footer}>
-            PayRace is an educational demo, not financial advice.
+            Money Coach is an educational demo, not financial advice.
           </Text>
             </>
           )}

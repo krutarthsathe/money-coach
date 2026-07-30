@@ -44,7 +44,7 @@ export function RecommendationCard({
       ]}
     >
       <View style={styles.topRow}>
-        <Text style={[styles.kicker, { color }]}>PAYRACE RECOMMENDS</Text>
+        <Text style={[styles.kicker, { color }]}>MONEY COACH RECOMMENDS</Text>
         <Text style={styles.spark}>✦</Text>
       </View>
       <Text style={styles.headline}>{headline}</Text>

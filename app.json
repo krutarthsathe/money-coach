@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "PayRace",
-    "slug": "payrace",
+    "name": "Money Coach",
+    "slug": "money-coach",
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "dark",
     "backgroundColor": "#07111F",
     "web": {
       "bundler": "metro",
-      "name": "PayRace"
+      "name": "Money Coach"
     }
   }
 }
