@@ -19,6 +19,7 @@ export type GeneratedDemo = {
     occupation: string;
     city: string;
     province: string;
+    typicalDailyNetCad: number;
     medianHourlyNetCad: number;
     historicalMedianAdvanceFeeRate: number;
   };
@@ -30,6 +31,7 @@ export type GeneratedDemo = {
     needAmountCad: number;
     availableNowAssumptionCad: number;
     pendingPayCad: number;
+    hoursWorked: number;
     advanceFeeCad: number;
     advanceId: string;
     earningsId: string;
@@ -56,6 +58,22 @@ export type GeneratedDemo = {
     medianMinutesToNextIncomeDeposit: number;
     totalObservedAdvanceFeesCad: number;
     eligibleAdvanceCount: number;
+  };
+  growth: {
+    earningOpportunities: Array<{
+      occupation: string;
+      medianDailyNetCad: number;
+      supportCount: number;
+      city: string;
+    }>;
+    spendingInsights: Array<{
+      category: string;
+      label: string;
+      purchaseCount: number;
+      totalSpentCad: number;
+      medianPurchaseCad: number;
+      suggestedAlternative: string;
+    }>;
   };
 };
 

@@ -327,6 +327,78 @@ const advanceAmount = Math.max(0, number(scenario.advance.amount_cad));
 const advanceFee = Math.max(0, number(scenario.advance.fee_cad));
 const pendingPay = Math.max(0, number(scenario.earning.net_pay_cad));
 
+const occupationBenchmarks = new Map();
+for (const peer of workers) {
+  if (peer.city !== worker.city || peer.province !== worker.province) continue;
+  const typicalDailyNetCad = number(peer.typical_daily_net_cad);
+  if (typicalDailyNetCad <= 0) continue;
+  const values = occupationBenchmarks.get(peer.occupation) ?? [];
+  values.push(typicalDailyNetCad);
+  occupationBenchmarks.set(peer.occupation, values);
+}
+
+const earningOpportunities = [...occupationBenchmarks.entries()]
+  .filter(([occupation, values]) => occupation !== worker.occupation && values.length >= 2)
+  .map(([occupation, values]) => ({
+    occupation,
+    medianDailyNetCad: round(median(values)),
+    supportCount: values.length,
+    city: worker.city,
+  }))
+  .sort((a, b) => b.medianDailyNetCad - a.medianDailyNetCad)
+  .slice(0, 3);
+
+const alternativeByCategory = {
+  food_out: "Pack a meal or choose a lower-cost grocery option",
+  entertainment: "Choose a free local activity",
+  clothing: "Wait 24 hours or consider second-hand",
+  misc: "Pause the purchase and compare a lower-cost option",
+};
+
+const labelByCategory = {
+  food_out: "Dining out",
+  entertainment: "Entertainment",
+  clothing: "Clothing",
+  misc: "Other wants",
+};
+
+const displayCategory = (category) =>
+  category
+    .split("_")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+
+const discretionaryByCategory = new Map();
+for (const transaction of transactions) {
+  if (
+    transaction.worker_id !== worker.worker_id ||
+    transaction.direction !== "debit" ||
+    String(transaction.is_essential) !== "0" ||
+    transaction.category === "cash_withdrawal"
+  ) {
+    continue;
+  }
+  const amountCad = number(transaction.amount_cad);
+  if (amountCad <= 0) continue;
+  const values = discretionaryByCategory.get(transaction.category) ?? [];
+  values.push(amountCad);
+  discretionaryByCategory.set(transaction.category, values);
+}
+
+const spendingInsights = [...discretionaryByCategory.entries()]
+  .map(([category, values]) => ({
+    category,
+    label: labelByCategory[category] ?? displayCategory(category),
+    purchaseCount: values.length,
+    totalSpentCad: round(values.reduce((sum, value) => sum + value, 0)),
+    medianPurchaseCad: round(median(values)),
+    suggestedAlternative:
+      alternativeByCategory[category] ??
+      "Pause the purchase and compare a lower-cost option",
+  }))
+  .sort((a, b) => b.totalSpentCad - a.totalSpentCad)
+  .slice(0, 4);
+
 const generated = {
   source: {
     scenarioType: preferredIsLinked ? "preferred" : "automatic_fallback",
@@ -346,6 +418,7 @@ const generated = {
     occupation: worker.occupation,
     city: worker.city,
     province: worker.province,
+    typicalDailyNetCad: number(worker.typical_daily_net_cad),
     medianHourlyNetCad: round(median(hourlyRates)),
     historicalMedianAdvanceFeeRate: round(median(feeRates), 4),
   },
@@ -357,6 +430,7 @@ const generated = {
     needAmountCad: advanceAmount,
     availableNowAssumptionCad: 0,
     pendingPayCad: pendingPay,
+    hoursWorked: number(scenario.earning.hours_worked),
     advanceFeeCad: advanceFee,
     advanceId: scenario.advance.advance_id,
     earningsId: scenario.earning.earnings_id,
@@ -391,6 +465,10 @@ const generated = {
       advances.reduce((sum, row) => sum + Math.max(0, number(row.fee_cad)), 0),
     ),
     eligibleAdvanceCount,
+  },
+  growth: {
+    earningOpportunities,
+    spendingInsights,
   },
 };
 

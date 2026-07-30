@@ -17,6 +17,7 @@
     "occupation": "Gig delivery driver",
     "city": "Edmonton",
     "province": "AB",
+    "typicalDailyNetCad": 140.81,
     "medianHourlyNetCad": 18.88,
     "historicalMedianAdvanceFeeRate": 0.0545
   },
@@ -28,6 +29,7 @@
     "needAmountCad": 85.74,
     "availableNowAssumptionCad": 0,
     "pendingPayCad": 159.71,
+    "hoursWorked": 7,
     "advanceFeeCad": 4.29,
     "advanceId": "A-00498",
     "earningsId": "E-011418",
@@ -54,5 +56,61 @@
     "medianMinutesToNextIncomeDeposit": 1244,
     "totalObservedAdvanceFeesCad": 1434.63,
     "eligibleAdvanceCount": 535
+  },
+  "growth": {
+    "earningOpportunities": [
+      {
+        "occupation": "Construction labourer",
+        "medianDailyNetCad": 237.66,
+        "supportCount": 4,
+        "city": "Edmonton"
+      },
+      {
+        "occupation": "Moving helper",
+        "medianDailyNetCad": 199.15,
+        "supportCount": 4,
+        "city": "Edmonton"
+      },
+      {
+        "occupation": "Care aide / support worker",
+        "medianDailyNetCad": 184.16,
+        "supportCount": 2,
+        "city": "Edmonton"
+      }
+    ],
+    "spendingInsights": [
+      {
+        "category": "food_out",
+        "label": "Dining out",
+        "purchaseCount": 11,
+        "totalSpentCad": 311.94,
+        "medianPurchaseCad": 33.09,
+        "suggestedAlternative": "Pack a meal or choose a lower-cost grocery option"
+      },
+      {
+        "category": "misc",
+        "label": "Other wants",
+        "purchaseCount": 5,
+        "totalSpentCad": 164.72,
+        "medianPurchaseCad": 29.91,
+        "suggestedAlternative": "Pause the purchase and compare a lower-cost option"
+      },
+      {
+        "category": "entertainment",
+        "label": "Entertainment",
+        "purchaseCount": 6,
+        "totalSpentCad": 152.65,
+        "medianPurchaseCad": 12.36,
+        "suggestedAlternative": "Choose a free local activity"
+      },
+      {
+        "category": "clothing",
+        "label": "Clothing",
+        "purchaseCount": 1,
+        "totalSpentCad": 70.46,
+        "medianPurchaseCad": 70.46,
+        "suggestedAlternative": "Wait 24 hours or consider second-hand"
+      }
+    ]
   }
 }
