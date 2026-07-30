@@ -59,17 +59,6 @@ Money Coach is not a generic budget tracker, CRUD expense list, or chatbot wrapp
 7. **Spend intervention at decision time.** Historical discretionary categories prefill a purchase check that compares skipping the purchase with an editable lower-cost alternative.
 8. **Evidence-backed defaults.** Six related CSV datasets are joined into a compact replay payload; the UI remains completely customizable.
 
-## Evidence against the judging criteria
-
-| Criterion | Weight | Evidence in this repository |
-| --- | ---: | --- |
-| Innovation | 25% | Side-by-side work-hour and borrowing equivalence; local opportunity ranking; purchase-time savings intervention; calendar cash-pressure model; no generic chat pattern |
-| Technical execution | 25% | React Native + Expo + TypeScript; pure deterministic domain engines; a six-file data preparation pipeline; reusable components; automated CI |
-| Functional completeness | 20% | Editable money inputs and expenses, covered/shortfall outcomes, advance math, daily/weekly/monthly forecasts, earn-more and save-more recommendations |
-| Problem-solution fit | 20% | Helps a worker cover today, find potentially better-paying work, and reduce avoidable spending without assuming predictable income |
-| UX | 5% | Plain-language hierarchy, high-contrast outcome states, progressive three-step flow, mobile-first controls, five authentic screenshots |
-| Ambition | 5% | Connects present-day decisions, historical evidence, and forward cash-flow planning in one cross-platform prototype |
-
 ## Functional product flow
 
 ```mermaid
@@ -295,16 +284,3 @@ CI repeats the same clean-install checks on every push and pull request.
 ## Scope and ambition
 
 This hackathon build completes the core decision loop without requiring an account, bank connection, or backend. The next product milestones are local scenario persistence, worker-defined recurring schedules, accessibility testing with native screen readers, and opt-in connections to real earnings and obligation data. The current pure-engine architecture is designed so those additions do not require rewriting the financial logic.
-
-## 60-second judging demo
-
-1. Show the **Money is short** preset: $39.03 is missing.
-2. Compare **2.1 more paid hours at $0 fee** with **borrow $39.03, pay $2.13, repay $41.16**.
-3. Change groceries from $85.74 to $100.00 and show every result update instantly.
-4. Switch to **Everything covered** and show that no loan or extra work is suggested.
-5. Select **Unexpected expense** to add a spontaneous $120.00 repair.
-6. Open **Forecast calendar**, select the 15th, and compare Daily, Weekly, and Monthly results.
-7. Open **Earn & save** to compare the current $159.71 gig with local occupation benchmarks.
-8. Switch from **Dining out** to **Entertainment**, then increase the weekly frequency and show the monthly and yearly savings recalculate.
-
-For ready-to-paste submission copy and screenshot ordering, see [`SUBMISSION.md`](./SUBMISSION.md).
