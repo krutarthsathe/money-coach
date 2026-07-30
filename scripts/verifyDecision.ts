@@ -9,6 +9,10 @@ import {
   buildMonthForecast,
   summarizeForecast,
 } from "../src/domain/forecastEngine";
+import {
+  calculateSpendDecision,
+  compareEarningOpportunities,
+} from "../src/domain/growthEngine";
 
 const base = {
   needLabel: "grocery",
@@ -198,3 +202,41 @@ assert.equal(augustBillsDay.expenseCad, 1228.74);
 assert.equal(augustBillsDay.netCad, -1228.74);
 
 console.log("Calendar forecast verified: daily, weekly, and monthly scenarios passed.");
+
+const earningComparisons = compareEarningOpportunities(
+  generated.replay.pendingPayCad,
+  generated.growth.earningOpportunities,
+);
+assert.equal(earningComparisons[0]?.occupation, "Construction labourer");
+assert.equal(earningComparisons[0]?.gainPerDayCad, 77.95);
+assert.equal(earningComparisons[0]?.gainPerFiveDayWeekCad, 389.75);
+assert.equal(earningComparisons[0]?.gainPerMonthCad, 1687.62);
+
+const competitiveOffer = compareEarningOpportunities(
+  300,
+  generated.growth.earningOpportunities,
+);
+assert.equal(competitiveOffer.length, 0);
+
+const restaurantSwap = calculateSpendDecision({
+  plannedSpendCad: 33.09,
+  alternativeCostCad: 12,
+  timesPerWeek: 1,
+  hourlyNetCad: 18.88,
+});
+assert.equal(restaurantSwap.skipSavingsCad, 33.09);
+assert.equal(restaurantSwap.alternativeSavingsCad, 21.09);
+assert.equal(restaurantSwap.monthlySavingsCad, 91.32);
+assert.equal(restaurantSwap.yearlySavingsCad, 1096.68);
+assert.equal(restaurantSwap.workHoursRecovered, 1.1);
+
+const expensiveAlternative = calculateSpendDecision({
+  plannedSpendCad: 20,
+  alternativeCostCad: 30,
+  timesPerWeek: 2,
+  hourlyNetCad: 20,
+});
+assert.equal(expensiveAlternative.alternativeSavingsCad, 0);
+assert.equal(expensiveAlternative.monthlySavingsCad, 0);
+
+console.log("Earn-and-save coach verified: 4 opportunity and spending scenarios passed.");

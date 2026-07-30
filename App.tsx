@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import { EvidenceModal } from "./src/components/EvidenceModal";
 import { ForecastCalendar } from "./src/components/ForecastCalendar";
+import { GrowthCoach } from "./src/components/GrowthCoach";
 import rawDemo from "./src/data/generatedDemo.json";
 import { calculateExpensePlan } from "./src/domain/decisionEngine";
 import type {
@@ -164,7 +165,8 @@ export default function App() {
   const [selectedExpenseId, setSelectedExpenseId] =
     useState<string>("groceries");
   const [demoKey, setDemoKey] = useState<DemoKey>("work");
-  const [activeView, setActiveView] = useState<"today" | "forecast">("today");
+  const [activeView, setActiveView] =
+    useState<"today" | "forecast" | "growth">("today");
   const [evidenceVisible, setEvidenceVisible] = useState(false);
   const answerAnimation = useRef(new Animated.Value(1)).current;
 
@@ -314,7 +316,26 @@ export default function App() {
                   activeView === "forecast" && styles.viewTabTextSelected,
                 ]}
               >
-                Forecast calendar
+                Forecast
+              </Text>
+            </Pressable>
+            <Pressable
+              testID="view-growth"
+              onPress={() => setActiveView("growth")}
+              accessibilityRole="button"
+              accessibilityState={{ selected: activeView === "growth" }}
+              style={[
+                styles.viewTab,
+                activeView === "growth" && styles.viewTabSelected,
+              ]}
+            >
+              <Text
+                style={[
+                  styles.viewTabText,
+                  activeView === "growth" && styles.viewTabTextSelected,
+                ]}
+              >
+                Earn & save
               </Text>
             </Pressable>
           </View>
@@ -323,6 +344,16 @@ export default function App() {
             <ForecastCalendar
               hourlyNetCad={hourlyNet}
               advanceFeeRate={demo.worker.historicalMedianAdvanceFeeRate}
+            />
+          ) : activeView === "growth" ? (
+            <GrowthCoach
+              currentOccupation={demo.worker.occupation}
+              city={demo.worker.city}
+              defaultCurrentOfferCad={demo.replay.pendingPayCad}
+              defaultHours={demo.replay.hoursWorked}
+              hourlyNetCad={hourlyNet}
+              opportunities={demo.growth.earningOpportunities}
+              spendingInsights={demo.growth.spendingInsights}
             />
           ) : (
             <>
