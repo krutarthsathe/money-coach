@@ -7,7 +7,7 @@
 
 **A mobile decision tool that turns an irregular-income worker's cash shortfall into two understandable choices: the extra paid hours needed, or the exact cost of borrowing.**
 
-Money Coach is designed for gig and daily-wage workers who need an answer now—not another finance dashboard. A worker enters what they earned, what is available in their account, and what must be paid. The app says whether everything is covered and, when it is not, compares the cost of working more with the fee and repayment impact of a cash advance.
+Money Coach is designed for gig and daily-wage workers who need an answer now—not another finance dashboard. A worker enters what they earned, what is available in their account, and what must be paid. The app says whether everything is covered and, when it is not, compares the cost of working more with the fee and repayment impact of a cash advance. A separate Earn & Save coach compares a current work offer with higher historical local pay and helps reconsider non-essential spending.
 
 Every number is editable for a live demo. The included data is evidence for realistic defaults, never a restriction on the worker's scenario.
 
@@ -18,11 +18,11 @@ These are real 390 × 844 captures from the running Expo web build, not design m
 <p align="center">
   <img src="./docs/screenshots/01-today-overview.jpg" width="30%" alt="Money Coach daily planner with editable demo scenarios" />
   <img src="./docs/screenshots/02-shortfall-options.jpg" width="30%" alt="A shortfall translated into extra work hours and cash advance cost" />
-  <img src="./docs/screenshots/03-covered-plan.jpg" width="30%" alt="Covered expense state with money remaining" />
+  <img src="./docs/screenshots/06-earn-more-opportunity.jpg" width="30%" alt="A current gig compared with higher-paying historical local work" />
 </p>
 
 <p align="center">
-  <img src="./docs/screenshots/04-unexpected-expense.jpg" width="30%" alt="Unexpected repair added to the editable expense list" />
+  <img src="./docs/screenshots/07-save-more-choice.jpg" width="30%" alt="A non-essential purchase compared with skipping it and a lower-cost alternative" />
   <img src="./docs/screenshots/05-daily-forecast-shortfall.jpg" width="30%" alt="Monthly forecast calendar showing a selected day's shortfall" />
 </p>
 
@@ -41,6 +41,8 @@ Money Coach answers that question in plain language:
 - If not, how many additional paid hours close the gap?
 - If I borrow only the gap, what fee will I pay and what must I repay?
 - How does the same situation look for a day, week, or month?
+- Does another type of local work historically pay more than this offer?
+- If I pause a non-essential purchase, how much could I keep?
 
 The app deliberately does **not** ask the worker to predict when pay will arrive or when a spontaneous expense will happen. Expenses can be added at any time.
 
@@ -53,16 +55,18 @@ Money Coach is not a generic budget tracker, CRUD expense list, or chatbot wrapp
 3. **The minimum-gap principle.** The engine only models borrowing the uncovered amount instead of suggesting a larger arbitrary loan.
 4. **Spontaneous-expense resilience.** Workers can add, remove, rename, or re-price expenses and see every recommendation recalculate immediately.
 5. **Calendar pressure, not false certainty.** The forecast exposes editable assumptions and shows daily, weekly, and monthly cash pressure without pretending to know a future deposit time.
-6. **Evidence-backed defaults.** Six related CSV datasets are joined into a compact replay payload; the UI remains completely customizable.
+6. **Local opportunity benchmarks.** A current offer is compared with occupation-level median daily take-home pay from workers in the same city, including the sample size behind each result.
+7. **Spend intervention at decision time.** Historical discretionary categories prefill a purchase check that compares skipping the purchase with an editable lower-cost alternative.
+8. **Evidence-backed defaults.** Six related CSV datasets are joined into a compact replay payload; the UI remains completely customizable.
 
 ## Evidence against the judging criteria
 
 | Criterion | Weight | Evidence in this repository |
 | --- | ---: | --- |
-| Innovation | 25% | Side-by-side work-hour and borrowing equivalence; minimum-gap advance logic; calendar cash-pressure model; no generic chat or budget-dashboard pattern |
+| Innovation | 25% | Side-by-side work-hour and borrowing equivalence; local opportunity ranking; purchase-time savings intervention; calendar cash-pressure model; no generic chat pattern |
 | Technical execution | 25% | React Native + Expo + TypeScript; pure deterministic domain engines; a six-file data preparation pipeline; reusable components; automated CI |
-| Functional completeness | 20% | Editable money inputs and expense list, three demo states, covered/shortfall outcomes, advance fee and repayment math, daily/weekly/monthly forecasts |
-| Problem-solution fit | 20% | Focused on the immediate decision a worker makes when variable earnings meet essential or spontaneous expenses |
+| Functional completeness | 20% | Editable money inputs and expenses, covered/shortfall outcomes, advance math, daily/weekly/monthly forecasts, earn-more and save-more recommendations |
+| Problem-solution fit | 20% | Helps a worker cover today, find potentially better-paying work, and reduce avoidable spending without assuming predictable income |
 | UX | 5% | Plain-language hierarchy, high-contrast outcome states, progressive three-step flow, mobile-first controls, five authentic screenshots |
 | Ambition | 5% | Connects present-day decisions, historical evidence, and forward cash-flow planning in one cross-platform prototype |
 
@@ -78,6 +82,9 @@ flowchart LR
     E --> G["Option 2<br/>Borrow gap · fee · repayment"]
     B --> H["Forecast calendar"]
     H --> I["Daily / weekly / monthly<br/>cash-flow summary"]
+    A --> J["Earn & Save coach"]
+    J --> K["Compare current offer with<br/>local occupation benchmarks"]
+    J --> L["Compare planned purchase with<br/>skip and lower-cost options"]
 ```
 
 ### Implemented capabilities
@@ -91,6 +98,8 @@ flowchart LR
 | Advance amount, fee, repayment, and next-pay impact | ✅ | [`decisionEngine.ts`](./src/domain/decisionEngine.ts) |
 | Separate monthly calendar view | ✅ | [`ForecastCalendar.tsx`](./src/components/ForecastCalendar.tsx) |
 | Daily, weekly, and monthly forecast summaries | ✅ | [`forecastEngine.ts`](./src/domain/forecastEngine.ts) |
+| Higher-paying local occupation comparison | ✅ | [`growthEngine.ts`](./src/domain/growthEngine.ts) |
+| Discretionary purchase and lower-cost alternative coach | ✅ | [`GrowthCoach.tsx`](./src/components/GrowthCoach.tsx) |
 | CSV-to-app data preparation | ✅ | [`buildDemoData.mjs`](./scripts/buildDemoData.mjs) |
 | Deterministic scenario verification | ✅ | [`verifyDecision.ts`](./scripts/verifyDecision.ts) |
 | GitHub Actions verification | ✅ | [`verify.yml`](./.github/workflows/verify.yml) |
@@ -138,6 +147,31 @@ Workday earnings appear on scheduled workdays. Monthly bills are placed on the 1
 
 If a selected period is negative, the same decision model explains the additional hours or the borrowing amount, fee, and repayment required to close that projected gap. These are transparent planning assumptions, not promised income or predicted deposit times.
 
+## Earn & Save model
+
+The third app view connects two different datasets to the worker's next decision.
+
+### Earn more
+
+The worker enters the take-home pay and hours for a job or task they are considering. Money Coach compares that daily offer with occupation-level medians for workers in the same city and shows:
+
+- Historical median take-home pay per day
+- Potential gain per day
+- Equivalent gain for a five-day week and 4.33-week month
+- Number of local worker records supporting the benchmark
+
+Only alternatives above the entered offer are shown. If the current offer beats the sampled alternatives, the app says it is competitive. These are exploration prompts, not job listings or guaranteed pay; qualifications, availability, travel, and safety still matter.
+
+### Save more
+
+The worker selects a discretionary category found in their transaction history. The app shows the observed purchase count, total, and median purchase, then lets the worker edit:
+
+- The purchase they are about to make
+- The cost of a lower-cost alternative
+- How often the decision happens each week
+
+The result compares **skip it** with **spend less**, and converts the savings into today, month, year, and equivalent work-time values. Essential purchases are explicitly excluded from this coaching flow.
+
 ## Technical architecture
 
 ```text
@@ -150,10 +184,11 @@ scripts/buildDemoData.mjs
 src/data/generatedDemo.json
       │
       ├──► decisionEngine.ts ──► today's covered/shortfall choices
-      └──► forecastEngine.ts ──► day/week/month summaries
+      ├──► forecastEngine.ts ──► day/week/month summaries
+      └──► growthEngine.ts ────► job and spending comparisons
                                   │
                                   ▼
-                      React Native + Expo interface
+                       React Native + Expo interface
 ```
 
 The domain functions are pure and independent from React. That separation makes money math deterministic, testable, and reusable by a future API or native persistence layer.
@@ -214,7 +249,7 @@ Install Expo Go and scan the QR code. You can also press `i` for the iOS simulat
 npm run check
 ```
 
-This regenerates the demo payload, type-checks the project, and runs 16 deterministic scenarios covering:
+This regenerates the demo payload, type-checks the project, and runs 20 deterministic scenarios covering:
 
 - Core decisions and historical fee replay
 - Covered-now and shortfall worker plans
@@ -223,6 +258,8 @@ This regenerates the demo payload, type-checks the project, and runs 16 determin
 - Additional work-hour estimates
 - Advance amount, fee, repayment, and next-pay impact
 - Daily, weekly, and monthly calendar forecasts
+- Higher-paying opportunity ranking and competitive-offer states
+- Lower-cost purchase, monthly savings, and work-time equivalence
 
 CI repeats the same clean-install checks on every push and pull request.
 
@@ -240,7 +277,8 @@ CI repeats the same clean-install checks on every push and pull request.
 │   ├── components/                 # Reusable mobile UI
 │   ├── data/generatedDemo.json     # Compact generated payload
 │   ├── domain/decisionEngine.ts    # Present-day decision logic
-│   └── domain/forecastEngine.ts    # Calendar forecasting logic
+│   ├── domain/forecastEngine.ts    # Calendar forecasting logic
+│   └── domain/growthEngine.ts      # Earn-more and save-more logic
 └── .github/workflows/verify.yml    # Continuous verification
 ```
 
@@ -266,5 +304,7 @@ This hackathon build completes the core decision loop without requiring an accou
 4. Switch to **Everything covered** and show that no loan or extra work is suggested.
 5. Select **Unexpected expense** to add a spontaneous $120.00 repair.
 6. Open **Forecast calendar**, select the 15th, and compare Daily, Weekly, and Monthly results.
+7. Open **Earn & save** to compare the current $159.71 gig with local occupation benchmarks.
+8. Switch from **Dining out** to **Entertainment**, then increase the weekly frequency and show the monthly and yearly savings recalculate.
 
 For ready-to-paste submission copy and screenshot ordering, see [`SUBMISSION.md`](./SUBMISSION.md).
