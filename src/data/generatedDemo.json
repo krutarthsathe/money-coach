@@ -1,0 +1,59 @@
+{
+  "generatedAt": "2026-07-30T02:11:37.848Z",
+  "source": {
+    "scenarioType": "preferred",
+    "replayLabel": "Historical replay",
+    "recordCounts": {
+      "earnings": 12204,
+      "advances": 535,
+      "obligations": 849,
+      "transactions": 31726,
+      "weeklySummaries": 3072,
+      "workers": 220,
+      "matchedPayouts": 12204
+    }
+  },
+  "worker": {
+    "id": "W-0206",
+    "occupation": "Gig delivery driver",
+    "city": "Edmonton",
+    "province": "AB",
+    "medianHourlyNetCad": 18.88,
+    "historicalMedianAdvanceFeeRate": 0.0545
+  },
+  "replay": {
+    "startedAt": "2026-06-20T23:04:00.000Z",
+    "depositAt": "2026-06-20T23:39:00.000Z",
+    "actualWaitMinutes": 35,
+    "needReason": "groceries",
+    "needAmountCad": 85.74,
+    "availableNowAssumptionCad": 0,
+    "pendingPayCad": 159.71,
+    "advanceFeeCad": 4.29,
+    "advanceId": "A-00498",
+    "earningsId": "E-011418",
+    "depositTransactionId": "T-0029495",
+    "employerId": "EMP-013",
+    "paymentMethod": "cash"
+  },
+  "payoutEstimate": {
+    "expectedDelayMinutes": 195,
+    "supportCount": 8,
+    "confidence": "High",
+    "fallbackLevel": "worker_employer_payment_method",
+    "note": "Median of matched income deposits arriving after the 5:04 p.m. replay checkpoint; the replay itself uses the actual historical arrival."
+  },
+  "nextEssentialObligation": {
+    "id": "O-00803",
+    "name": "Mobile phone",
+    "category": "phone",
+    "amountCad": 88,
+    "dueAt": "2026-06-21T15:00:00.000Z"
+  },
+  "insights": {
+    "advancesFollowedBySufficientPayWithin24HoursPct": 54,
+    "medianMinutesToNextIncomeDeposit": 1244,
+    "totalObservedAdvanceFeesCad": 1434.63,
+    "eligibleAdvanceCount": 535
+  }
+}
