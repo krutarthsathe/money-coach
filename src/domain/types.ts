@@ -1,7 +1,6 @@
 export type Confidence = "High" | "Medium" | "Low";
 
 export type GeneratedDemo = {
-  generatedAt: string;
   source: {
     scenarioType: "preferred" | "automatic_fallback";
     replayLabel: string;

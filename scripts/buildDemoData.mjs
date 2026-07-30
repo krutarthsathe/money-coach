@@ -328,7 +328,6 @@ const advanceFee = Math.max(0, number(scenario.advance.fee_cad));
 const pendingPay = Math.max(0, number(scenario.earning.net_pay_cad));
 
 const generated = {
-  generatedAt: new Date().toISOString(),
   source: {
     scenarioType: preferredIsLinked ? "preferred" : "automatic_fallback",
     replayLabel: "Historical replay",
